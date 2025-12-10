@@ -13,8 +13,6 @@ from inventario.models import Producto, AlertaStock
 from .models import Venta, VentaItem, Trabajador, Turno
 
 
-
-@login_required
 def rapida(request):
     """
     Vista principal de venta rápida.
@@ -23,7 +21,6 @@ def rapida(request):
 
 
 @require_GET
-@login_required
 def buscar_productos(request):
     """
     Busca productos activos y no bloqueados para el buscador en vivo.
