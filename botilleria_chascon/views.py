@@ -114,7 +114,6 @@ def inicio_limitado(request):
 
 #   TRABAJADORES DESDE EL ADMIN
 
-@login_required
 def lista_trabajadores(request):
     # ESTO ES PARA CREAR TRABAJADORES NUEVES
     if request.method == "POST":
