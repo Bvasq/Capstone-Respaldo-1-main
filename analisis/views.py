@@ -21,15 +21,7 @@ def duenio_required(view_func):
     return wrapper
 
 def index(request):
-    """
-    Módulo de análisis avanzado del negocio.
-    Genera:
-    - Ventas diarias
-    - Top productos más vendidos
-    - Monto por categoría
-    - Rendimiento por trabajador/turno
-    - Filtro por rango de fechas
-    """
+
 
     hoy = timezone.localdate()
 
