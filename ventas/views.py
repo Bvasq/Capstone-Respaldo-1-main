@@ -14,17 +14,12 @@ from .models import Venta, VentaItem, Trabajador, Turno
 
 
 def rapida(request):
-    """
-    Vista principal de venta rápida.
-    """
     return render(request, "ventas/rapida.html")
 
 
 @require_GET
 def buscar_productos(request):
-    """
-    Busca productos activos y no bloqueados para el buscador en vivo.
-    """
+
     q = request.GET.get("q", "").strip()
 
     productos = Producto.objects.filter(activo=True, bloqueado=False)
@@ -47,9 +42,7 @@ def buscar_productos(request):
 
 
 def _crear_alerta_stock(producto):
-    """
-    Genera una alerta si el stock está bajo el mínimo.
-    """
+
     if producto.stock <= producto.stock_minimo and producto.stock_minimo > 0:
         AlertaStock.objects.get_or_create(
             producto=producto,
@@ -168,10 +161,7 @@ def confirmar_venta(request):
 
 @login_required
 def ticket_txt(request, venta_id):
-    """
-    Genera un ticket de compra en formato .txt tipo boleta,
-    listo para abrir e imprimir.
-    """
+
     venta = get_object_or_404(Venta, id=venta_id)
     items = VentaItem.objects.filter(venta=venta).select_related("producto")
 
