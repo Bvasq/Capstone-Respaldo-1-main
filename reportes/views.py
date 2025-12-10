@@ -19,8 +19,6 @@ def duenio_required(view_func):
         return view_func(request, *args, **kwargs)
     return wrapper
 
-
-@login_required
 def index(request):
     """
     Dashboard de reportes principales del negocio.
