@@ -7,6 +7,8 @@ urlpatterns = [
 
     # Inicio
     path("", views.landing, name="landing"),
+    path("admin/", admin.site.urls),
+    path("ventas/", include(("ventas.urls", "ventas"), namespace="ventas")),
 
     # PIN seguridad
     path("admin-pin/", views.admin_pin, name="admin_pin"),
