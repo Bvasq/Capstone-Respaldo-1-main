@@ -25,11 +25,7 @@ def inicio_general(request):
 
 
 def landing(request):
-    """
-    Pantalla inicial de la app.
-    SOLO muestra: logo grande + botón ADMIN + botón INICIO.
-    Además, si hay productos con stock bajo, muestra un aviso.
-    """
+
     # Limpia cuando inicia otra vez la app
     request.session.pop("modo_acceso", None)
     request.session.pop("es_admin", None)
@@ -56,10 +52,7 @@ ADMIN_PIN = "1234"
 
 
 def admin_pin(request):
-    """
-    Vista donde el jefe ingresa su PIN.
-    Si el PIN es correcto, se guarda en la sesión y pasa al menú admin.
-    """
+
     if request.method == "POST":
         pin_ingresado = request.POST.get("pin")
         if pin_ingresado == ADMIN_PIN:
@@ -98,18 +91,12 @@ def cerrar_admin(request):
 
 
 def menu_admin(request):
-    """
-    Compatibilidad con código antiguo.
-    Redirige al mismo menú de administrador, usando la lógica de PIN.
-    """
+
     return admin_menu(request)
 
 
 def inicio_limitado(request):
-    """
-    Vista antigua de 'inicio' modo vendedor.
-    Ahora el flujo recomendado es usar 'inicio_trabajador' con turnos.
-    """
+
     request.session["modo_acceso"] = "vendedor"
     return render(request, "menu_inicio.html")
 
@@ -190,10 +177,7 @@ def eliminar_trabajador(request, trabajador_id):
 
 
 def obtener_o_crear_turno_activo(trabajador: Trabajador) -> Turno:
-    """
-    Busca si el trabajador ya tiene un turno activo hoy.
-    Si no, crea uno nuevo automáticamente usando su turno_base.
-    """
+
     hoy = timezone.localdate()
     turno = Turno.objects.filter(
         trabajador=trabajador,
@@ -213,12 +197,7 @@ def obtener_o_crear_turno_activo(trabajador: Trabajador) -> Turno:
 
 
 def inicio_trabajador(request):
-    """
-    Vista de INICIO (para trabajadores).
-    - Muestra lista de trabajadores activos.
-    - El trabajador selecciona su nombre y se inicia turno.
-    - NO muestra menú admin.
-    """
+
     trabajadores = Trabajador.objects.filter(activo=True)
 
     if request.method == "POST":
@@ -243,11 +222,7 @@ def inicio_trabajador(request):
 
 
 def menu_trabajador(request):
-    """
-    Menú para el trabajador:
-    - Solo ver INVENTARIO y VENTAS.
-    - NO tiene acceso a análisis, reportes ni trabajadores.
-    """
+
     trabajador_id = request.session.get("trabajador_id")
     turno_id = request.session.get("turno_id")
 
@@ -267,10 +242,7 @@ def menu_trabajador(request):
 
 
 def cerrar_turno(request):
-    """
-    Cierra el turno actual del trabajador, registrando la hora de salida
-    y limpiando la sesión.
-    """
+
     trabajador_id = request.session.get("trabajador_id")
     turno_id = request.session.get("turno_id")
 
