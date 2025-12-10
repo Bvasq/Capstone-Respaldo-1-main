@@ -71,7 +71,6 @@ class Producto(models.Model):
         ordering = ["nombre"]
 
     def margen(self):
-        """Retorna el margen bruto de ganancia."""
         try:
             return float(self.precio_unitario) - float(self.costo)
         except:
