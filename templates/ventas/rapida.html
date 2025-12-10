@@ -133,7 +133,7 @@ input.addEventListener('input', async ()=>{
   });
 });
 
-// Finalizar venta + descarga de ticket
+// Finalizar venta + abrir ticket
 document.querySelector('#btn-finalizar').onclick = async ()=>{
   if(carrito.length===0) return alert("Agrega productos.");
   const res = await fetch("{% url 'ventas:confirmar' %}", {
@@ -144,37 +144,15 @@ document.querySelector('#btn-finalizar').onclick = async ()=>{
     },
     body: JSON.stringify({items: carrito})
   });
-
-  if(!res.ok) {
-    const txt = await res.text();
-    return alert(txt);
-  }
-
+  if(!res.ok) return alert(await res.text());
   const data = await res.json();
+
   alert("Venta registrada. Total: $" + data.total.toFixed(0));
 
-  // ---------- AQUÍ ESTÁ EL CAMBIO IMPORTANTE ----------
-  // Intentamos obtener la URL de descarga del ticket
-  let ticketUrl = null;
-
-  if (data.ticket_download_url) {
-    // si tu vista confirmar_venta devuelve esto
-    ticketUrl = data.ticket_download_url;
-  } else if (data.ticket_url) {
-    // o si devuelve ticket_url normal
-    ticketUrl = data.ticket_url;
-  } else if (data.venta_id) {
-    // o en último caso, construimos la ruta /ventas/ticket/<id>/download/
-    ticketUrl = `/ventas/ticket/${data.venta_id}/download/`;
+  // 👉 abrir el ticket.txt en una nueva pestaña para imprimir
+  if (data.ticket_url) {
+    window.open(data.ticket_url, "_blank");
   }
-
-  // Si tenemos una URL, redirigimos para que el navegador DESCARGUE el .txt
-  if (ticketUrl) {
-    // en la vista ticket_txt_download pon:
-    // Content-Disposition: attachment; filename="ticket_XX.txt"
-    window.location.href = ticketUrl;
-  }
-  // ----------------------------------------------------
 
   carrito = [];
   renderCarrito();
