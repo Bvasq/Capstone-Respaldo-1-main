@@ -21,7 +21,6 @@ def duenio_required(view_func):
 
 
 @login_required
-@duenio_required
 def index(request):
     """
     Dashboard de reportes principales del negocio.
