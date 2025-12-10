@@ -13,13 +13,13 @@ from ventas.models import Venta, VentaItem, Trabajador, Turno
 # Solo el dueño
 def duenio_required(view_func):
     def wrapper(request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_authenticated:
+            return redirect('login')  # o lo que uses
+        if not (request.user.is_superuser or request.user.is_staff):
             return HttpResponseForbidden("No tienes permiso para ver esta sección.")
         return view_func(request, *args, **kwargs)
     return wrapper
 
-@login_required
-@duenio_required
 def index(request):
     """
     Módulo de análisis avanzado del negocio.
