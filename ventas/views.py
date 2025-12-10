@@ -223,7 +223,7 @@ def ticket_txt(request, venta_id):
     contenido = "\n".join(lines)
 
     response = HttpResponse(contenido, content_type="text/plain; charset=utf-8")
-    response["Content-Disposition"] = f'attachment; filename=\"ticket_{venta.id}.txt\"'
+    response["Content-Disposition"] = f'attachment; filename="ticket_{venta.id}.txt"'
     return response
 
 @login_required
