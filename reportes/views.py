@@ -12,7 +12,9 @@ from ventas.models import Venta, VentaItem
 
 def duenio_required(view_func):
     def wrapper(request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_authenticated:
+            return redirect('login')  # o lo que uses
+        if not (request.user.is_superuser or request.user.is_staff):
             return HttpResponseForbidden("No tienes permiso para ver esta sección.")
         return view_func(request, *args, **kwargs)
     return wrapper
