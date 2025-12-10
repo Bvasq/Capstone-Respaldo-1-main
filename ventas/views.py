@@ -221,10 +221,12 @@ def ticket_txt(request, venta_id):
     lines.append("")
 
     contenido = "\n".join(lines)
-
+    
     response = HttpResponse(contenido, content_type="text/plain; charset=utf-8")
     response["Content-Disposition"] = f'attachment; filename="ticket_{venta.id}.txt"'
+    response["X-Content-Type-Options"] = "nosniff"
     return response
+    
 
 @login_required
 def anular_venta(request, venta_id):
