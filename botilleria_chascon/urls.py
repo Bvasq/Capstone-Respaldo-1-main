@@ -4,8 +4,6 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    # Django admin
-    path("admin/", admin.site.urls),
 
     # Inicio
     path("", views.landing, name="landing"),
