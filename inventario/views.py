@@ -13,7 +13,6 @@ from .models import Categoria, Producto
 
 
 def to_decimal(val):
-    """Convierte strings como '1.234,5' o '1234.5' a Decimal seguro."""
     if val is None:
         return Decimal("0")
     s = str(val).strip()
@@ -32,9 +31,7 @@ from .models import Producto, Categoria
 
 
 def lista(request):
-    """
-    Listado de productos con filtros por categoría y estado (activo/inactivo).
-    """
+
     # PRINCIPAL QUERY
     productos = Producto.objects.select_related("categoria").all().order_by("nombre")
 
@@ -323,7 +320,7 @@ def categorias_editar(request, pk):
 
 @login_required
 def categorias_eliminar(request, pk):
-    """Eliminar categoría (solo si no tiene productos asociados)."""
+
     cat = get_object_or_404(Categoria, pk=pk)
 
     tiene_productos = Producto.objects.filter(categoria=cat).exists()
