@@ -20,9 +20,6 @@ def duenio_required(view_func):
     return wrapper
 
 def index(request):
-    """
-    Dashboard de reportes principales del negocio.
-    """
 
     hoy = timezone.now().date()
     hace_30 = hoy - timedelta(days=30)
